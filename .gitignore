@@ -3,3 +3,4 @@ a
 Day1
 *.py
 .vscode
+.DS_Store
