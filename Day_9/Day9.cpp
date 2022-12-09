@@ -31,83 +31,94 @@ const char nl = '\n';
  
 /* ---------- Code here ---------- */
 
-bool check(vector<string> v, int i, int j){
-    int x=i, y=j;
-    while(x-1!=-1 && v[i][j]>v[x-1][y]) x--;
-    if (x==0) return true;
-    x=i; y=j;
-    while(x+1!=v.size() && v[i][j]>v[x+1][y]) x++;
-    if (x==v.size()-1) return true;
-    x=i; y=j;
-    while(y-1!=-1 && v[i][j]>v[x][y-1]) y--;
-    if (y==0) return true;
-    x=i; y=j;
-    while(y+1!=v.size() && v[i][j]>v[x][y+1]) y++;
-    if (y==v.size()-1) return true;
-
-    return false;
-}
-
-int check2(vector<vector<int>> v, int i, int j){
-    int x=i, y=j;
-    int result=1;
-
-    while(x-1!=-1 && v[i][j]>v[--x][y]) ;
-    if (x!=i) result*=abs(i-x);
-
-    x=i; y=j;
-    while(x+1!=v.size() && v[i][j]>v[++x][y]);
-    if (x!=i) result*=abs(x-i);
-
-    x=i; y=j;
-    while(y-1!=-1 && v[i][j]>v[x][--y]) ;
-    if (y!=j) result*=abs(j-y);
-
-    x=i; y=j;
-    while(y+1!=v.size() && v[i][j]>v[x][++y]) ;
-    if (y!=j) result*=abs(y-j);
-
-    return result;
-}
 
 void solve1() {
     ifstream file("test1.txt");
     string str;
-    vector<string> v;
-    while (getline(file, str))
-        v.push_back(str);
-    
-    int ris=0;
-    FOR(i,1,v.size()-1)
-        FOR(j,1,v[0].size()-1)
-            ris+=check(v,i,j);
-
-    dbg(ris);
-    cout<<ris+4*v.size()-4<<endl;
+    char l; int n;
+    set<pair<int, int>> s {{0,0}};
+    pair<int, int> head = {0, 0};
+    pair<int, int> tail = {0, 0};
+    while (getline(file, str)){
+        stringstream ss(str);
+        ss >> l >> n;
+        FOR(i,0,n){
+            switch(l){
+                case 'R':
+                    head.second++;
+                    break;
+                case 'L':
+                    head.second--;
+                    break;
+                case 'U':
+                    head.first++;
+                    break;
+                case 'D':
+                    head.first--;
+                    break;
+            }
+            if (abs(head.first-tail.first)>=2 || abs(head.second-tail.second) >=2){
+                bool trovato = false;
+                pair<int, int> mov;
+                int dist=abs(head.first-tail.first) + abs(head.second-tail.second);
+                FOR(a,-1,2)
+                    FOR(b,-1,2)
+                        if (abs(head.first-tail.first-a) + abs(head.second-tail.second-b) < dist){
+                            dist=abs(head.first-tail.first-a) + abs(head.second-tail.second-b);
+                            mov={a,b};
+                        }
+                tail.first+=mov.first;
+                tail.second+=mov.second;
+                s.insert(tail);
+            }
+        }
+    }
+    cout<<s.size()<<nl;
 }
 
 void solve2() {
     ifstream file("test2.txt");
     string str;
-    vector<vector<int>> v;
+    char l; int n;
+    set<pair<int, int>> s {{0,0}};
+    vector<pair<int, int>> v(10, {0, 0});
     while (getline(file, str)){
-        vector<int> temp;
-        feach(x,str) 
-            temp.push_back(x-'0');
-        v.push_back(temp);
+        stringstream ss(str);
+        ss >> l >> n;
+        FOR(i,0,n){
+            switch(l){
+                case 'R':
+                    v[0].second++;
+                    break;
+                case 'L':
+                    v[0].second--;
+                    break;
+                case 'U':
+                    v[0].first++;
+                    break;
+                case 'D':
+                    v[0].first--;
+                    break;
+            }
+            FOR(j,1,10){
+                if (abs(v[j-1].first-v[j].first)>=2 || abs(v[j-1].second-v[j].second) >=2){
+                    pair<int, int> temp;
+                    int dist=abs(v[j-1].first-v[j].first) + abs(v[j-1].second-v[j].second);
+                    FOR(a,-1,2)
+                        FOR(b,-1,2)
+                            if (abs(v[j-1].first-v[j].first-a) + abs(v[j-1].second-v[j].second-b) < dist){
+                                dist=abs(v[j-1].first-v[j].first-a) + abs(v[j-1].second-v[j].second-b);
+                                temp={a,b};
+                            }
+                    v[j].first+=temp.first;
+                    v[j].second+=temp.second;
+                }
+            }
+            s.insert(v[9]);
+        }
     }
-    
-    int ris=0;
-    FOR(i,1,v.size()-1)
-        FOR(j,1,v[0].size()-1)
-            {   int temp=check2(v,i,j);
-                //dbg(temp);
-                ris=max(ris, temp );}
-
-
-    cout<<ris<<endl;
+    cout<<s.size()<<nl;
 }
- 
 /* ---------- Main here ---------- */
  
 int main() {
