@@ -72,7 +72,7 @@ void solve2() {
         ss >> a;
         if (a== "addx"){
             ss>>n;
-
+            dbg(v);
             if(v[conta%40]==1) result+='#';
             else result+=' ';
             conta+=1;

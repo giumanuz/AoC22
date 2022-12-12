@@ -17,6 +17,8 @@ Current Progress
 | Treetop Tree House            | ⭐ ⭐ |
 | Rope Bridge                   | ⭐ ⭐ |
 | Cathode-Ray Tube              | ⭐ ⭐ |
+| Monkey in the Middle          | ⭐ ⭐ |
+| Hill Climbing Algorithm       | ⭐ ⭐ |
 
 About Advent of Code
 --------------------
