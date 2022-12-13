@@ -1,6 +1,10 @@
 *.dSYM
 a
 Day1
-*.py
 .vscode
 .DS_Store
+*.csv
+generator.py
+prova.py
+*.pdf
+testo.txt

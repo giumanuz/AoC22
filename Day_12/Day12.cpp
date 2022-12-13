@@ -30,7 +30,7 @@ const int MOD = 1000000007;
 const char nl = '\n';
  
 /* ---------- Code here ---------- */
-//BFS
+
 int bfs(vector<vector<int>> v, pair<int, int> start, pair<int, int> stop){
     queue<pair<pair<int, int>, int>> q;
     set<pair<int, int>> visited;
@@ -42,7 +42,7 @@ int bfs(vector<vector<int>> v, pair<int, int> start, pair<int, int> stop){
         int y=p.first.second;
         int dist=p.second;  
         if (visited.count({x, y})==1)
-            continue;
+          continue;
         vector<pair<int, int>> moves({{0,-1}, {0,1}, {-1,0}, {1,0}});
         for(auto [b1, c1]: moves){
             int b=x+b1;
