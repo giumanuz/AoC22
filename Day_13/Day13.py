@@ -17,18 +17,14 @@ def iscorrect(a, b):
     if isinstance(a, list) and isinstance(b, list):
         i = 0
         while i < len(a) and i < len(b):
-            c = iscorrect(a[i], b[i])
-            if c == 1:
-                return 1
-            if c == -1:
-                return -1
+            if (iscorrect(a[i], b[i])!=0):
+                return iscorrect(a[i], b[i])
             i += 1
 
         if i == len(a):
             if len(a) == len(b):
                 return 0
             return 1 
-
         return -1
 
 def solve1():
