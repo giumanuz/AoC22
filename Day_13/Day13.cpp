@@ -31,16 +31,49 @@ const char nl = '\n';
  
 /* ---------- Code here ---------- */
 
-//ATTENCTION: THIS SOLUTION IS WRONG
 
-int compare(vector<int> a, vector<int> b) {
-    int i = 0;
-    while (i < a.size() && i < b.size()) {
+int compare(struttura a, struttura b);
+int compare(vector<struttura> a, vector<struttura> b);
+int compare(int a, int b);
+
+
+enum class tipo{
+    numero,
+    lista
+};
+
+struct struttura{
+    tipo tipo;
+    int numero;
+    vector<struttura> lista;
+};
+
+bool isIstanceOf(struttura s, tipo t){
+    return s.tipo == t;
+}
+
+int compare(struttura a, struttura b){
+    if(isIstanceOf(a, tipo::numero) && isIstanceOf(b, tipo::numero)){
+        return compare(a.numero, b.numero);
+    }
+    if(isIstanceOf(a, tipo::lista) && isIstanceOf(b, tipo::lista)){
+        return compare(a.lista, b.lista);
+    }
+    if(isIstanceOf(a, tipo::numero) && isIstanceOf(b, tipo::lista)){
+        vector<struttura> tmp = {a};
+        return compare(tmp, b.lista);
+    }
+    if(isIstanceOf(a, tipo::lista) && isIstanceOf(b, tipo::numero)){
+        vector<struttura> tmp = {b};
+        return compare(a.lista, tmp);
+    }
+}
+int compare(vector<struttura> a, vector<struttura> b){
+    int i=0;
+    while(i<a.size() && i<b.size()){
         int ris= compare(a[i], b[i]);
-        if (ris==1)
-            return 1;
-        if (ris==-1)
-            return -1;
+        if(ris==1) return 1;
+        if(ris==-1) return -1;
         i++;
     }
     if (i == a.size()) {
@@ -57,48 +90,53 @@ int compare(int a, int b) {
     return -1;
 }
 
-int compare(int a, vector<int> b) {
-    b = {a};
-    return compare(b, a);
-}
-
-int compare(vector<int> a, int b) {
-    a = {b};
-    return compare(a, b);
+vector<struttura> parseInput(string s, int index){
+    vector<struttura> ans;
+    bool primo = true;
+    while(index<s.size()){
+        if (primo && s[index] == '[') {
+            primo = false;
+            index++;
+            continue;
+        }
+        if (s[index] == ']') {
+            return ans;
+        }
+        if (s[index] == '[') {
+            ans.pb({tipo::lista, 0, parseInput(s, index)});
+            index++;
+            continue;
+        }
+        if (s[index] == ',') {
+            index++;
+            continue;
+        }
+        int tmp = 0;
+        int n= s[index] - '0';
+        if (n==1 && s[index+1] == '0') {
+            n=10;
+            index++;
+        } 
+        index++;
+        ans.pb({tipo::numero, tmp, {}});
+        continue;
+    }
 }
 
 void solve1() {
-    ifstream fin("test.txt");
-    string s;
+    ifstream f("test.txt");
+    string s1, s2;
     int ans = 0;
     int i = 0;
-    while (getline(fin, s)) {
-        vector<int> a, b;
-        feach(let, s) {
-            if (let == '[') {
-                a.push_back('{');
-            } else if (let == '[') {
-                a.push_back('{');
-            }
-        }
-
-        while (getline(fin, s)) {
-            if (s == "") {
-                break;
-            }
-            stringstream ss(s);
-            int x;
-            ss >> x;
-            if (t == "a") {
-                a.push_back(x);
-            } else {
-                b.push_back(x);
-            }
-        }
+    while (getline(f, s1)) {
+        getline(f, s2);
+        vector<struttura> a = parseInput(s1, 0);
+        vector<struttura> b = parseInput(s2, 0);
         if (compare(a, b) == 1) {
             ans += i + 1;
         }
         i++;
+        getline(f, s1);
     }
     cout << ans << endl;
 }
@@ -109,5 +147,5 @@ int main() {
     cin.tie(0)->sync_with_stdio(0);
 
     solve1();
-    solve2();
+    //solve2();
 }

@@ -20,6 +20,7 @@ Current Progress
 | Monkey in the Middle          | ⭐ ⭐ |
 | Hill Climbing Algorithm       | ⭐ ⭐ |
 | Distress Signal               | ⭐ ⭐ |
+| Regolith Reservoir            | ⭐ ⭐ |
 
 About Advent of Code
 --------------------
