@@ -48,7 +48,7 @@ vector<string> split(string s, string delim){
 pair<int, int> findPosition(set<pair<int, int>> &m){
     int x=500;
     int y=0;
-    inizio:
+    begin:
         while(m.count(make_pair(x, y+1))==0)  {
             y++;
             if (y==300)
@@ -56,11 +56,11 @@ pair<int, int> findPosition(set<pair<int, int>> &m){
         }
         if (m.count(make_pair(x-1, y+1))==0) {
             x--;
-            goto inizio;
+            goto begin;
         }
         if (m.count(make_pair(x+1, y+1))==0) {
             x++;
-            goto inizio;
+            goto begin;
         }
     return make_pair(x, y);
 }
@@ -71,28 +71,28 @@ void solve1() {
 
     set<pair<int, int>> m;
     while(getline(file, str)){
-        vector<string> temp = split(str, " -> ");
-        FOR(i, 0, temp.size()-1){
-            if (temp[i].substr(temp[i].find(',')+1) == temp[i+1].substr(temp[i].find(',')+1)){ //VIRGOLA UGUALE
-                int virgola=stoi(temp[i+1].substr(temp[i].find(',')+1));
-                int massimo=max(stoi((temp[i].substr(0, temp[i].find(',')))), stoi(temp[i+1].substr(0, temp[i].find(','))));
-                int minimo=min(stoi((temp[i].substr(0, temp[i].find(',')))), stoi(temp[i+1].substr(0, temp[i].find(','))));
+        vector<string> array = split(str, " -> ");
+        FOR(i, 0, array.size()-1){
+            if (array[i].substr(array[i].find(',')+1) == array[i+1].substr(array[i].find(',')+1)){ //VIRGOLA UGUALE
+                int decimal=stoi(array[i+1].substr(array[i].find(',')+1));
+                int greater=max(stoi((array[i].substr(0, array[i].find(',')))), stoi(array[i+1].substr(0, array[i].find(','))));
+                int lower=min(stoi((array[i].substr(0, array[i].find(',')))), stoi(array[i+1].substr(0, array[i].find(','))));
 
-                while(massimo!=minimo){
-                    m.insert({massimo, virgola});
-                    massimo--;
+                while(greater!=lower){
+                    m.insert({greater, decimal});
+                    greater--;
                 }
-                m.insert({minimo, virgola});
+                m.insert({lower, decimal});
             }
             else{
-                int numero=stoi(temp[i+1].substr(0, temp[i].find(',')));    //NUMERO UGUALE
-                int massimo=max(stoi((temp[i].substr(temp[i].find(',')+1))), stoi(temp[i+1].substr(temp[i].find(',')+1)));
-                int minimo=min(stoi((temp[i].substr(temp[i].find(',')+1))), stoi(temp[i+1].substr(temp[i].find(',')+1)));
-                while(massimo!=minimo){
-                    m.insert({numero, massimo});
-                    massimo--;
+                int numero=stoi(array[i+1].substr(0, array[i].find(',')));    //NUMERO UGUALE
+                int greater=max(stoi((array[i].substr(array[i].find(',')+1))), stoi(array[i+1].substr(array[i].find(',')+1)));
+                int lower=min(stoi((array[i].substr(array[i].find(',')+1))), stoi(array[i+1].substr(array[i].find(',')+1)));
+                while(greater!=lower){
+                    m.insert({numero, greater});
+                    greater--;
                 }
-                m.insert({numero, minimo});
+                m.insert({numero, lower});
             }
         }        
     }
@@ -116,35 +116,35 @@ void solve2() {
         vector<string> temp = split(str, " -> ");
         FOR(i, 0, temp.size()-1){
             if (temp[i].substr(temp[i].find(',')+1) == temp[i+1].substr(temp[i].find(',')+1)){ //VIRGOLA UGUALE
-                int virgola=stoi(temp[i+1].substr(temp[i].find(',')+1));
-                int massimo=max(stoi((temp[i].substr(0, temp[i].find(',')))), stoi(temp[i+1].substr(0, temp[i].find(','))));
-                int minimo=min(stoi((temp[i].substr(0, temp[i].find(',')))), stoi(temp[i+1].substr(0, temp[i].find(','))));
+                int decimal=stoi(temp[i+1].substr(temp[i].find(',')+1));
+                int greater=max(stoi((temp[i].substr(0, temp[i].find(',')))), stoi(temp[i+1].substr(0, temp[i].find(','))));
+                int lower=min(stoi((temp[i].substr(0, temp[i].find(',')))), stoi(temp[i+1].substr(0, temp[i].find(','))));
 
-                while(massimo!=minimo){
-                    m.insert({massimo, virgola});
-                    massimo--;
+                while(greater!=lower){
+                    m.insert({greater, decimal});
+                    greater--;
                 }
-                m.insert({minimo, virgola});
+                m.insert({lower, decimal});
             }
             else{
                 int numero=stoi(temp[i+1].substr(0, temp[i].find(',')));    //NUMERO UGUALE
-                int massimo=max(stoi((temp[i].substr(temp[i].find(',')+1))), stoi(temp[i+1].substr(temp[i].find(',')+1)));
-                int minimo=min(stoi((temp[i].substr(temp[i].find(',')+1))), stoi(temp[i+1].substr(temp[i].find(',')+1)));
-                while(massimo!=minimo){
-                    m.insert({numero, massimo});
-                    massimo--;
+                int greater=max(stoi((temp[i].substr(temp[i].find(',')+1))), stoi(temp[i+1].substr(temp[i].find(',')+1)));
+                int lower=min(stoi((temp[i].substr(temp[i].find(',')+1))), stoi(temp[i+1].substr(temp[i].find(',')+1)));
+                while(greater!=lower){
+                    m.insert({numero, greater});
+                    greater--;
                 }
-                m.insert({numero, minimo});
+                m.insert({numero, lower});
             }
         }        
     }
 
-    int massimo=0;
+    int greater=0;
     for(auto[x,y]: m)
-        massimo=max(y, massimo);
+        greater=max(y, greater);
     
     FOR(i,300, 750)
-       m.insert({i, massimo+2});
+       m.insert({i, greater+2});
     
     int i;
 
